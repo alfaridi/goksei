@@ -102,3 +102,26 @@ func CustodianBankNameByID(id string) (name string, ok bool) {
 func stripNumberSuffix(s string) string {
 	return numberSuffix.ReplaceAllString(s, "")
 }
+
+func (mf MutualFund) IsMonetaryMarket() bool {
+	return mf.FundType == "money_market_fund"
+}
+
+func (mf MutualFund) IsFixedIncome() bool {
+	switch mf.FundType {
+	case "sukuk_based_fund", "fixed_income_fund",
+		"capital_protected_fund", "rd_-_terproteksi":
+		return true
+	default:
+		return false
+	}
+}
+
+func (mf MutualFund) IsEquity() bool {
+	switch mf.FundType {
+	case "equity_fund", "rd_-_saham":
+		return true
+	default:
+		return false
+	}
+}
