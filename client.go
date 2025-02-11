@@ -46,11 +46,12 @@ func (c *Client) login() (string, error) {
 		return "", fmt.Errorf("username and password are required")
 	}
 
+	// password should be hashed twice, first with SHA-1 and then with SHA-256
 	body, err := json.Marshal(LoginRequest{
 		Username: c.username,
 		Password: c.password,
 		ID:       "1",
-		AppType:  "web",
+		AppType:  "mobile",
 	})
 	if err != nil {
 		return "", err
@@ -62,7 +63,6 @@ func (c *Client) login() (string, error) {
 	}
 
 	req.Header.Set("Referer", "https://akses.ksei.co.id")
-	req.Header.Set("User-Agent", uarand.GetRandom())
 	req.Header.Set("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
